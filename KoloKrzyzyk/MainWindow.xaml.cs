@@ -211,7 +211,26 @@ namespace KoloKrzyzyk
             {
                 return;
             }
-
+            if (szukajWolne())
+            {
+                return;
+            }
+        }
+        private bool szukajWolne()
+        {
+            for (byte y = 0; y < 3; y++)
+            {
+                for (byte x = 0; x < 3; x++)
+                {
+                    if (tablica.getTab(y,x)==Rodzaj.Puste)
+                    {
+                        tablica.setTab(y, x, Rodzaj.Krzyzyk);
+                        rysuj(y, x);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
         private bool zajmijSrodek()
         {
@@ -485,9 +504,16 @@ namespace KoloKrzyzyk
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            // new game
             clearAll();
             win = false;
-
+            Random random = new Random();
+            int playerStart; //0 - human, 1-computer
+            playerStart = random.Next(0, 2);
+            if (playerStart==1)
+            {
+                nextStep();
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
