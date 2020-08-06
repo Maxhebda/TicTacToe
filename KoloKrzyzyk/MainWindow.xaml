@@ -17,14 +17,37 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="b00" Grid.Column="0" Grid.Row="0" Click="b00_Click"><Image x:Name="i00"/></Button>
-        <Button x:Name="b10" Grid.Column="1" Grid.Row="0" Click="b10_Click"><Image x:Name="i10"/></Button>
-        <Button x:Name="b20" Grid.Column="2" Grid.Row="0" Click="b20_Click"><Image x:Name="i20"/></Button>
-        <Button x:Name="b01" Grid.Column="0" Grid.Row="1" Click="b01_Click"><Image x:Name="i01"/></Button>
-        <Button x:Name="b11" Grid.Column="1" Grid.Row="1" Click="b11_Click"><Image x:Name="i11"/></Button>
-        <Button x:Name="b21" Grid.Column="2" Grid.Row="1" Click="b21_Click"><Image x:Name="i21"/></Button>
-        <Button x:Name="b02" Grid.Column="0" Grid.Row="2" Click="b02_Click"><Image x:Name="i02"/></Button>
-        <Button x:Name="b12" Grid.Column="1" Grid.Row="2" Click="b12_Click"><Image x:Name="i12"/></Button>
-        <Button x:Name="b22" Grid.Column="2" Grid.Row="2" Click="b22_Click"><Image x:Name="i22"/></Button>
+        <Button x:Name="b00" Grid.Column="0" Grid.Row="0" Click="b00_Click">
+            <Image x:Name="i00"/>
+        </Button>
+        <Button x:Name="b10" Grid.Column="1" Grid.Row="0" Click="b10_Click">
+            <Image x:Name="i10"/>
+        </Button>
+        <Button x:Name="b20" Grid.Column="2" Grid.Row="0" Click="b20_Click">
+            <Image x:Name="i20"/>
+        </Button>
+        <Button x:Name="b01" Grid.Column="0" Grid.Row="1" Click="b01_Click">
+            <Image x:Name="i01"/>
+        </Button>
+        <Button x:Name="b11" Grid.Column="1" Grid.Row="1" Click="b11_Click">
+            <Image x:Name="i11"/>
+        </Button>
+        <Button x:Name="b21" Grid.Column="2" Grid.Row="1" Click="b21_Click">
+            <Image x:Name="i21"/>
+        </Button>
+        <Button x:Name="b02" Grid.Column="0" Grid.Row="2" Click="b02_Click">
+            <Image x:Name="i02"/>
+        </Button>
+        <Button x:Name="b12" Grid.Column="1" Grid.Row="2" Click="b12_Click">
+            <Image x:Name="i12"/>
+        </Button>
+        <Button x:Name="b22" Grid.Column="2" Grid.Row="2" Click="b22_Click">
+            <Image x:Name="i22"/>
+        </Button>
+        <!--<Label Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Center">Nowa Gra</Label>-->
+        <StackPanel Orientation="Horizontal">
+            <Button Background="BlanchedAlmond" Padding="3" Content="Nowa Gra" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top"/>
+            <Button Background="BlanchedAlmond" Padding="3" Content="Info" HorizontalAlignment="Left" Margin="2,0,0,0" VerticalAlignment="Top"/>
+        </StackPanel>
     </Grid>
 </Window>

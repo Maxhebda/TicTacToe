@@ -25,7 +25,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(0, 0, Rodzaj.Kolko);
                 i00.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
-                tablica.nextStep();
+                nextStep();
             }
         }
 
@@ -35,7 +35,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(1, 0, Rodzaj.Kolko);
                 i10.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
-                tablica.nextStep();
+                nextStep();
             }
         }
 
@@ -45,7 +45,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(2, 0, Rodzaj.Kolko);
                 i20.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
-                tablica.nextStep();
+                nextStep();
             }
         }
 
@@ -55,7 +55,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(0, 1, Rodzaj.Kolko);
                 i01.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
-                tablica.nextStep();
+                nextStep();
             }
         }
 
@@ -65,7 +65,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(1, 1, Rodzaj.Kolko);
                 i11.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
-                tablica.nextStep();
+                nextStep();
             }
         }
 
@@ -75,7 +75,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(2, 1, Rodzaj.Kolko);
                 i21.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
-                tablica.nextStep();
+                nextStep();
             }
         }
 
@@ -85,7 +85,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(0, 2, Rodzaj.Kolko);
                 i02.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
-                tablica.nextStep();
+                nextStep();
             }
         }
 
@@ -95,7 +95,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(1, 2, Rodzaj.Kolko);
                 i12.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
-                tablica.nextStep();
+                nextStep();
             }
         }
 
@@ -105,12 +105,63 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(2, 2, Rodzaj.Kolko);
                 i22.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
-                tablica.nextStep();
+                nextStep();
             }
+        }
+        private void rysuj(byte y, byte x, bool rodzaj = false)
+        {
+            if (y==0 && x==0) i00.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
+            if (y==1 && x==0) i10.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
+            if (y==2 && x==0) i20.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
+            if (y==0 && x==1) i01.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
+            if (y==1 && x==1) i11.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
+            if (y==2 && x==1) i21.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
+            if (y==0 && x==2) i02.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
+            if (y==1 && x==2) i12.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
+            if (y==2 && x==2) i22.Source = new BitmapImage(new Uri("obrazki/O1-icon.png", UriKind.Relative));
+        }
+        public void nextStep()
+        {
+            // szukanie wygranej!
+            if (szukajWygranej())
+                return;
+        }
+        private bool szukajWygranej()
+        {
+            for (byte i = 0; i < 3; i++)
+            {
+                //row
+                if (tablica.getTab(i, 0) == Rodzaj.Kolko && tablica.getTab(i, 1) == Rodzaj.Kolko)
+                {
+                    tablica.setTab(i, 2,Rodzaj.Kolko); rysuj(i, 2); return true;
+                }
+                if (tablica.getTab(i, 0) == Rodzaj.Kolko && tablica.getTab(i, 2) == Rodzaj.Kolko)
+                {
+                    tablica.setTab(i, 1,Rodzaj.Kolko); rysuj(i, 1); return true;
+                }
+                if (tablica.getTab(i, 1) == Rodzaj.Kolko && tablica.getTab(i, 2) == Rodzaj.Kolko)
+                {
+                    tablica.setTab(i, 0,Rodzaj.Kolko); rysuj(i, 0); return true;
+                }
+                //column
+                if (tablica.getTab(0, i) == Rodzaj.Kolko && tablica.getTab(1, i) == Rodzaj.Kolko)
+                {
+                    tablica.setTab(2, i,Rodzaj.Kolko); rysuj(2, i); return true;
+                }
+                if (tablica.getTab(0 ,i) == Rodzaj.Kolko && tablica.getTab(2,i) == Rodzaj.Kolko)
+                {
+                    tablica.setTab(1, i,Rodzaj.Kolko); rysuj(1, i); return true;
+                }
+                if (tablica.getTab(1, i) == Rodzaj.Kolko && tablica.getTab(2,i) == Rodzaj.Kolko)
+                {
+                    tablica.setTab(0, i,Rodzaj.Kolko); rysuj(0, i); return true;
+                }
+            }
+            return false;
         }
     }
 
-    class Tablica
+    class Tablica 
     {
         private Rodzaj[,] rodzaj;
         public Tablica()
@@ -136,10 +187,6 @@ namespace KoloKrzyzyk
         {
             if (x > 2 || y > 2) return Rodzaj.Puste;
             return rodzaj[y, x];
-        }
-        public void nextStep()
-        {
-            // działania kompa
         }
     }
 }
