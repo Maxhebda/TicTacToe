@@ -14,7 +14,6 @@ namespace KoloKrzyzyk
     public partial class MainWindow : Window
     {
         bool win = false;
-        bool player = true;     //true = O , false = X
         string adr_kolko = "obrazki/O1-icon.png";
         string adr_krzyzyk = "obrazki/X1-icon.png";
         Tablica tablica = new Tablica();
@@ -23,6 +22,24 @@ namespace KoloKrzyzyk
             InitializeComponent();
         }
 
+        private void pokazInfo(byte nr) // 0 - nic, 1 - wygral gracz, 2 - wygral komputer
+        {
+            switch(nr)
+            {
+                default:
+                    labelInfo.Content = "";
+                    labelInfo.Visibility = System.Windows.Visibility.Hidden;
+                    break;
+                case 1:
+                    labelInfo.Content = "Wygrałeś!";
+                    labelInfo.Visibility = System.Windows.Visibility.Visible;
+                    break;
+                case 2:
+                    labelInfo.Content = "Przegrałeś!";
+                    labelInfo.Visibility = System.Windows.Visibility.Visible;
+                    break;
+            }
+        }
         private void b00_Click(object sender, RoutedEventArgs e)
         {
             if (win)
@@ -31,6 +48,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(0, 0, Rodzaj.Kolko);
                 i00.Source = new BitmapImage(new Uri(adr_kolko, UriKind.Relative));
+                if (czyWygralGracz()) pokazInfo(1);
                 nextStep();
             }
         }
@@ -43,6 +61,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(1, 0, Rodzaj.Kolko);
                 i10.Source = new BitmapImage(new Uri(adr_kolko, UriKind.Relative));
+                if (czyWygralGracz()) pokazInfo(1);
                 nextStep();
             }
         }
@@ -55,6 +74,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(2, 0, Rodzaj.Kolko);
                 i20.Source = new BitmapImage(new Uri(adr_kolko, UriKind.Relative));
+                if (czyWygralGracz()) pokazInfo(1);
                 nextStep();
             }
         }
@@ -67,6 +87,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(0, 1, Rodzaj.Kolko);
                 i01.Source = new BitmapImage(new Uri(adr_kolko, UriKind.Relative));
+                if (czyWygralGracz()) pokazInfo(1);
                 nextStep();
             }
         }
@@ -79,6 +100,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(1, 1, Rodzaj.Kolko);
                 i11.Source = new BitmapImage(new Uri(adr_kolko, UriKind.Relative));
+                if (czyWygralGracz()) pokazInfo(1);
                 nextStep();
             }
         }
@@ -91,6 +113,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(2, 1, Rodzaj.Kolko);
                 i21.Source = new BitmapImage(new Uri(adr_kolko, UriKind.Relative));
+                if (czyWygralGracz()) pokazInfo(1);
                 nextStep();
             }
         }
@@ -103,6 +126,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(0, 2, Rodzaj.Kolko);
                 i02.Source = new BitmapImage(new Uri(adr_kolko, UriKind.Relative));
+                if (czyWygralGracz()) pokazInfo(1);
                 nextStep();
             }
         }
@@ -115,6 +139,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(1, 2, Rodzaj.Kolko);
                 i12.Source = new BitmapImage(new Uri(adr_kolko, UriKind.Relative));
+                if (czyWygralGracz()) pokazInfo(1);
                 nextStep();
             }
         }
@@ -127,6 +152,7 @@ namespace KoloKrzyzyk
             {
                 tablica.setTab(2, 2, Rodzaj.Kolko);
                 i22.Source = new BitmapImage(new Uri(adr_kolko, UriKind.Relative));
+                if (czyWygralGracz()) pokazInfo(1);
                 nextStep();
             }
         }
@@ -144,6 +170,7 @@ namespace KoloKrzyzyk
         }
         private void clearAll()
         {
+            pokazInfo(0);
             tablica.clearTab();
             i00.Source = new BitmapImage(new Uri("", UriKind.Relative));
             i01.Source = new BitmapImage(new Uri("", UriKind.Relative));
@@ -165,23 +192,21 @@ namespace KoloKrzyzyk
         }
         public void nextStep()
         {
-            bNewGame.Content = "1";
+            if (win)
+                return;
             // szukanie wygranej!
             if (szukajWygranej())
             {
                 return;
             }
-            bNewGame.Content = "2";
             if (szukajZagrozenia())
             {
                 return;
             }
-            bNewGame.Content = "3";
             if (zajmijSrodek())
             {
                 return;
             }
-            bNewGame.Content = "4";
             if (zajmijRog())
             {
                 return;
@@ -260,6 +285,37 @@ namespace KoloKrzyzyk
             if (y == 2 && x == 1) { if (win == true) b21.Background = Brushes.Green; else b21.Background = Brushes.Beige; };
             if (y == 2 && x == 2) { if (win == true) b22.Background = Brushes.Green; else b22.Background = Brushes.Beige; };
         }
+
+        private bool czyWygralGracz()
+        {
+            for (byte i = 0; i < 3; i++)
+            {
+                //row
+                if (tablica.getTab(i, 0) == Rodzaj.Kolko && tablica.getTab(i, 1) == Rodzaj.Kolko && tablica.getTab(i, 2) == Rodzaj.Kolko)
+                {
+                    colorWin(i, 0, true); colorWin(i, 1, true); colorWin(i, 2, true);
+                    win = true; return true;
+                }
+                //column
+                if (tablica.getTab(0, i) == Rodzaj.Kolko && tablica.getTab(1, i) == Rodzaj.Kolko && tablica.getTab(2, i) == Rodzaj.Kolko)
+                {
+                    colorWin(0, i, true); colorWin(1, i, true); colorWin(2, i, true);
+                    win = true; return true;
+                }
+            }
+            //slant
+            if (tablica.getTab(0, 0) == Rodzaj.Kolko && tablica.getTab(1, 1) == Rodzaj.Kolko && tablica.getTab(2, 2) == Rodzaj.Kolko)
+            {
+                colorWin(2, 2, true); colorWin(1, 1, true); colorWin(0, 0, true);
+                win = true; return true;
+            }
+            if (tablica.getTab(2, 0) == Rodzaj.Kolko && tablica.getTab(1, 1) == Rodzaj.Kolko && tablica.getTab(0, 2) == Rodzaj.Kolko)
+            {
+                colorWin(0, 2, true); colorWin(1, 1, true); colorWin(2, 0, true);
+                win = true; return true;
+            }
+            return false;
+        }
         private bool szukajWygranej()
         {
             for (byte i = 0; i < 3; i++)
@@ -269,38 +325,50 @@ namespace KoloKrzyzyk
                 {
                     colorWin(i, 0, true);colorWin(i, 1, true);colorWin(i, 2, true);
                     win = true;
-                    tablica.setTab(i, 2, Rodzaj.Krzyzyk); rysuj(i, 2); return true;
+                    tablica.setTab(i, 2, Rodzaj.Krzyzyk); rysuj(i, 2);
+                    pokazInfo(2); 
+                    return true;
                 }
                 if (tablica.getTab(i, 0) == Rodzaj.Krzyzyk && tablica.getTab(i, 2) == Rodzaj.Krzyzyk && tablica.getTab(i, 1) == Rodzaj.Puste)
                 {
                     colorWin(i, 0, true); colorWin(i, 2, true); colorWin(i, 1, true);
                     win = true;
-                    tablica.setTab(i, 1, Rodzaj.Krzyzyk); rysuj(i, 1); return true;
+                    tablica.setTab(i, 1, Rodzaj.Krzyzyk); rysuj(i, 1);
+                    pokazInfo(2); 
+                    return true;
                 }
                 if (tablica.getTab(i, 1) == Rodzaj.Krzyzyk && tablica.getTab(i, 2) == Rodzaj.Krzyzyk && tablica.getTab(i, 0) == Rodzaj.Puste)
                 {
                     colorWin(i, 0, true); colorWin(i, 1, true); colorWin(i, 2, true);
                     win = true;
-                    tablica.setTab(i, 0, Rodzaj.Krzyzyk); rysuj(i, 0); return true;
+                    tablica.setTab(i, 0, Rodzaj.Krzyzyk); rysuj(i, 0);
+                    pokazInfo(2); 
+                    return true;
                 }
                 //column
                 if (tablica.getTab(0, i) == Rodzaj.Krzyzyk && tablica.getTab(1, i) == Rodzaj.Krzyzyk && tablica.getTab(2, i) == Rodzaj.Puste)
                 {
                     colorWin(0,i, true); colorWin(1,i, true); colorWin(2,i, true);
                     win = true;
-                    tablica.setTab(2, i, Rodzaj.Krzyzyk); rysuj(2, i); return true;
+                    tablica.setTab(2, i, Rodzaj.Krzyzyk); rysuj(2, i);
+                    pokazInfo(2); 
+                    return true;
                 }
                 if (tablica.getTab(0, i) == Rodzaj.Krzyzyk && tablica.getTab(2, i) == Rodzaj.Krzyzyk && tablica.getTab(1, i) == Rodzaj.Puste)
                 {
                     colorWin(0, i, true); colorWin(1, i, true); colorWin(2, i, true);
                     win = true;
-                    tablica.setTab(1, i, Rodzaj.Krzyzyk); rysuj(1, i); return true;
+                    tablica.setTab(1, i, Rodzaj.Krzyzyk); rysuj(1, i);
+                    pokazInfo(2); 
+                    return true;
                 }
                 if (tablica.getTab(1, i) == Rodzaj.Krzyzyk && tablica.getTab(2, i) == Rodzaj.Krzyzyk && tablica.getTab(0, i) == Rodzaj.Puste)
                 {
                     colorWin(0, i, true); colorWin(1, i, true); colorWin(2, i, true);
                     win = true;
-                    tablica.setTab(0, i, Rodzaj.Krzyzyk); rysuj(0, i); return true;
+                    tablica.setTab(0, i, Rodzaj.Krzyzyk); rysuj(0, i);
+                    pokazInfo(2); 
+                    return true;
                 }
             }
                 //slant
@@ -308,38 +376,50 @@ namespace KoloKrzyzyk
                 {
                     colorWin(2,2, true); colorWin(1,1, true); colorWin(0,0, true);
                     win = true;
-                    tablica.setTab(2, 2, Rodzaj.Krzyzyk); rysuj(2, 2); return true;
+                    tablica.setTab(2, 2, Rodzaj.Krzyzyk); rysuj(2, 2);
+                    pokazInfo(2); 
+                    return true;
                 }
                 if (tablica.getTab(1, 1) == Rodzaj.Krzyzyk && tablica.getTab(2, 2) == Rodzaj.Krzyzyk && tablica.getTab(0, 0) == Rodzaj.Puste)
                 {
                     colorWin(2, 2, true); colorWin(1, 1, true); colorWin(0, 0, true);
                     win = true;
-                    tablica.setTab(0, 0, Rodzaj.Krzyzyk); rysuj(0, 0); return true;
+                    tablica.setTab(0, 0, Rodzaj.Krzyzyk); rysuj(0, 0);
+                    pokazInfo(2); 
+                    return true;
                 }
                 if (tablica.getTab(0, 0) == Rodzaj.Krzyzyk && tablica.getTab(2, 2) == Rodzaj.Krzyzyk && tablica.getTab(1, 1) == Rodzaj.Puste)
                 {
                     colorWin(2, 2, true); colorWin(1, 1, true); colorWin(0, 0, true);
                     win = true;
-                    tablica.setTab(1, 1, Rodzaj.Krzyzyk); rysuj(1, 1); return true;
+                    tablica.setTab(1, 1, Rodzaj.Krzyzyk); rysuj(1, 1);
+                    pokazInfo(2); 
+                    return true;
                 }
 
                 if (tablica.getTab(2, 0) == Rodzaj.Krzyzyk && tablica.getTab(1, 1) == Rodzaj.Krzyzyk && tablica.getTab(0, 2) == Rodzaj.Puste)
                 {
                     colorWin(0, 2, true); colorWin(1, 1, true); colorWin(2, 0, true);
                     win = true;
-                    tablica.setTab(0, 2, Rodzaj.Krzyzyk); rysuj(0, 2); return true;
+                    tablica.setTab(0, 2, Rodzaj.Krzyzyk); rysuj(0, 2);
+                    pokazInfo(2); 
+                    return true;
                 }
                 if (tablica.getTab(2, 0) == Rodzaj.Krzyzyk && tablica.getTab(0, 2) == Rodzaj.Krzyzyk && tablica.getTab(1, 1) == Rodzaj.Puste)
                 {
                     colorWin(0, 2, true); colorWin(1, 1, true); colorWin(2, 0, true);
                     win = true;
-                    tablica.setTab(1, 1, Rodzaj.Krzyzyk); rysuj(1, 1); return true;
+                    tablica.setTab(1, 1, Rodzaj.Krzyzyk); rysuj(1, 1);
+                    pokazInfo(2); 
+                    return true;
                 }
                 if (tablica.getTab(0, 2) == Rodzaj.Krzyzyk && tablica.getTab(1, 1) == Rodzaj.Krzyzyk && tablica.getTab(2, 0) == Rodzaj.Puste)
                 {
                     colorWin(0, 2, true); colorWin(1, 1, true); colorWin(2, 0, true);
                     win = true;
-                    tablica.setTab(2, 0, Rodzaj.Krzyzyk); rysuj(2, 0); return true;
+                    tablica.setTab(2, 0, Rodzaj.Krzyzyk); rysuj(2, 0);
+                    pokazInfo(2); 
+                    return true;
                 }
             return false;
         }
@@ -408,6 +488,11 @@ namespace KoloKrzyzyk
             clearAll();
             win = false;
 
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Wersja aplikacji: 1.0\nData powstania: 08.2020\n-------------\nAutor: Maksymilian Hebda\nminiProjekt C# in Visual Studio/WPF", "Kółko i Krzyżyk", MessageBoxButton.OK, MessageBoxImage.Asterisk, MessageBoxResult.OK);
         }
     }
 
