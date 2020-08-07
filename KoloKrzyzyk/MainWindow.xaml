@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KoloKrzyzyk"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="500" ResizeMode="NoResize">
+        Title="Kółko i Krzyżyk" Height="500" Width="500" ResizeMode="NoResize" Icon="obrazki/X1-icon.png">
     <Grid Background="Beige">
         <Grid.RowDefinitions>
             <RowDefinition/>
