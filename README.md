@@ -1,7 +1,7 @@
 # Tic Tac Toe
-Mini projekt w Visual Studio / C# / WPF
-* losowy start gracz lub komputer
-* sztuczna inteligencja ale z pozostawioną furtką do wygrania (patrz screen)
+<img src="./projectScreenImage/TicTacToe.png" width=200>
 
-## Screen okna głównego :
-![Tic Tac Toe - Maksymilian Hebda](./projectScreenImage/TicTacToe.png)
+Mini project in Visual Studio / C # / WPF
+
+* random start of a player or computer
+* artificial intelligence but with a wicket to win (see screenshot)
